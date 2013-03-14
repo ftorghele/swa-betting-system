@@ -62,7 +62,12 @@ passport.use(new facebookStrategy({
                                                           ', ' + connection.escape(profile.id) + ');';
         connection.query(sql, function(err, result) {
           if (err) throw err;
-          done(null, { id: result[0].id, name: result[0].name });
+
+          var sql = 'SELECT * FROM users WHERE fbId = ' + connection.escape(profile.id);
+          connection.query(sql, function(err, result) {
+            if (err) throw err;
+            done(null, { id: result[0].id, name: result[0].name });
+          });
         });
       } else {
         done(null, { id: result[0].id, name: result[0].name });        
