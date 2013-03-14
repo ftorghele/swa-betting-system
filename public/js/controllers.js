@@ -28,3 +28,13 @@ function MyGamesCtrl($scope, $http) {
       $scope.games = data.games;
     });
 }
+
+function AddGameCtrl($scope, $http, $location) {
+  $scope.form = {};
+  $scope.submitGame = function () {
+    $http.post('/api/addgame', $scope.form).
+      success(function(data) {
+        $location.path('/games');
+      });
+  };
+}

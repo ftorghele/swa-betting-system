@@ -1,4 +1,6 @@
+h1 Games
 p There are currently {{games.length}} Games in progress! Start betting now!
+a(href='addGame') Want to add a Game?
 div(ng-repeat='game in games')
   h3 {{game.title}}
   div {{game.description}}
