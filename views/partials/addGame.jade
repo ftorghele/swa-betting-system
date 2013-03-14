@@ -1,0 +1,16 @@
+h1 Games
+h2 Add a new Game
+label(for='title') Title:
+input(ng-model='form.title', name='title')
+p Description:
+  textarea(ng-model='form.description', cols='50', rows='15')
+label(for='quoteA') Quote A:
+input(ng-model='form.quoteA', name='quoteA')
+label(for='quoteX') Quote X:
+input(ng-model='form.quoteX', name='quoteX')
+label(for='quoteB') Quote B:
+input(ng-model='form.quoteB', name='quoteB')
+label(for='endTime') Ending Time:
+input(ng-model='form.endTime', name='endTime')
+p
+  button(ng-click='submitGame()') Add Game

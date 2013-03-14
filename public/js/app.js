@@ -19,6 +19,10 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives'])
     								controller: MyGamesCtrl,
     								activetab: 'games'
       }).
+      when('/addGame', {	templateUrl: 'partials/addGame', 
+    								controller: AddGameCtrl,
+    								activetab: 'games'
+      }).
       when('/login', {redirectTo: '/auth/facebook'
       }).
       otherwise({redirectTo: '/home'

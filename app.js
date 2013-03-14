@@ -110,6 +110,7 @@ app.get('/partials/:name', routes.partials);
 
 app.get('/api/name', api.name);
 app.get('/api/games', api.games);
+app.post('/api/addgame', api.addgame);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', function(req, res) {
