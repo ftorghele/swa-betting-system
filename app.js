@@ -33,10 +33,6 @@ app.configure(function(){
   });
 });
 
-app.locals({
-    brand: 'Betting System',
-});
-
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
@@ -44,6 +40,13 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
+
+// CronJob
+
+var cronJob = require('cron').CronJob;
+new cronJob('*/10 * * * * *', function(){
+    console.log('You will see this message every 10 seconds');
+}, null, true, null);
 
 // Passport
 
@@ -92,7 +95,6 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-
 // Passport Routes
 
 app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
@@ -119,7 +121,8 @@ app.post('/api/addgame', api.addgame);
 // redirect all others to the index (HTML5 history)
 app.get('*', function(req, res) {
   res.render('index', {
-    user: req.user
+    user: req.user,
+    brand: 'Betting System'
   });
 });
 
