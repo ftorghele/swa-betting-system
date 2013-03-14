@@ -21,3 +21,10 @@ MyHomeCtrl.$inject = [];
 function MyAboutCtrl() {
 }
 MyAboutCtrl.$inject = [];
+
+function MyGamesCtrl($scope, $http) {
+  $http.get('/api/games').
+    success(function(data, status, headers, config) {
+      $scope.games = data.games;
+    });
+}

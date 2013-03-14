@@ -19,6 +19,8 @@ html(ng-app="myApp")
           ul.nav(ng-controller='AppCtrl')
             li(ng-class="{active: $route.current.activetab == 'home'}")
               a(href='home') Home
+            li(ng-class="{active: $route.current.activetab == 'games'}")
+              a(href='games') Games    
             li(ng-class="{active: $route.current.activetab == 'about'}")
               a(href='about') About
             li

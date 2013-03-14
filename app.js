@@ -8,7 +8,8 @@ var express = require('express'),
   passport = require('passport'),
   facebookStrategy = require('passport-facebook').Strategy,
   appConfig = require('./config'),
-  api = require('./routes/api');
+  api = require('./routes/api'),
+  connection = require('./db.js');
 
 var app = module.exports = express();
 
@@ -42,15 +43,6 @@ app.configure('development', function(){
 
 app.configure('production', function(){
   app.use(express.errorHandler());
-});
-
-// MySQL
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-  host     : appConfig.mysql.host,
-  user     : appConfig.mysql.user,
-  password : appConfig.mysql.password,
-  database : appConfig.mysql.database
 });
 
 // Passport
@@ -127,6 +119,7 @@ app.get('/partials/:name', routes.partials);
 // JSON API
 
 app.get('/api/name', api.name);
+app.get('/api/games', api.games);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
