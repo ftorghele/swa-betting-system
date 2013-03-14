@@ -9,6 +9,10 @@
     "passport": "~0.1.16",
     "passport-facebook": "~0.1.5",
     "mysql": "2.0.0-alpha7",
+<<<<<<< HEAD
     "amqp": "~0.1.6"
+=======
+    "cron": "~1.0.1"
+>>>>>>> 13586b038b86e1f400ec4ee3f21cf3506cfd9e25
   }
 }
