@@ -23,18 +23,23 @@ html(ng-app="myApp")
               a(href='games') Games    
             li(ng-class="{active: $route.current.activetab == 'about'}")
               a(href='about') About
+          ul.nav.pull-right  
             - if(!user)
                 li
                   a(href='auth/facebook', target='_self') login
             - else
-                li.dropdown
-                  a(href='#', target='_self')
+                li.dropdown.loggedin-user
+                  a.dropdown-toggle(href='#')
                     img(src='https://graph.facebook.com/1137871804/picture')
-                    = user.name
+                    span
+                      = user.name
                     b.caret
                   ul.dropdown-menu
                     li 
-                      a(href='logout', target='_self') logout
+                      a(href='logout', target='_self') 
+                        i.icon-off
+                        = ' logout'
+                        
 
             
 
