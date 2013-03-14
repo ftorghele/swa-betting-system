@@ -61,49 +61,40 @@ passport.use(new facebookStrategy({
     callbackURL: appConfig.fb.callbackUrl
   },
   function(token, tokenSecret, profile, done) {
-    var User = {};
-    var sql = 'SELECT count(*) FROM users WHERE fbId = ' + connection.escape(profile.id);
+    var sql = 'SELECT * FROM users WHERE fbId = ' + connection.escape(profile.id);
     connection.query(sql, function(err, result) {
       if (err) throw err;
-    
-      console.log(result);
 
-
-    });
-
-
-
-
-
-
-/*
-    User.findOne({providerId: profile.id},
-      function(err, user) {
-        if (!err && user != null) {
-          var ObjectId = mongoose.Types.ObjectId;
-          User.update({"_id": user["_id"]}, { $set: {lastConnected: new Date()} } ).exec();
-        } else {
-          var userData = new User({
-            provider: profile.provider,
-            providerUsername: profile.username,
-            providerId: profile.username + ":" + profile.id,
-            created: Date.now(),
-            oauthToken: token,
-            username: profile.displayName,
-            profilePicture: 'https://api.twitter.com/1/users/profile_image?screen_name=' + profile.username +'&size=bigger'
-          });
-          userData.save(function(err) {
-            if (err) console.log(err);
-            else console.log('Saving user...');
-          });
-        }
+      if(result.length === 0) {
+        var sql = 'INSERT INTO users (name, fbId) VALUES (' + connection.escape(profile.displayName) + 
+                                                          ', ' + connection.escape(profile.id) + ');';
+        connection.query(sql, function(err, result) {
+          if (err) throw err;
+          done(null, { id: result[0].id, name: result[0].name });
+        });
+      } else {
+        done(null, { id: result[0].id, name: result[0].name });        
       }
-      );
-      var user = { id: profile.id, name: profile.username });
-      done(null, user);
-      */
+    });
   }
 ));
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  var sql = 'SELECT * FROM users WHERE id = ' + connection.escape(id) + ' LIMIT 1;';
+  connection.query(sql, function(err, result) {
+    if (err) throw err;
+    if(result.length === 0) {
+      done(err, false);
+    } else {
+      var user = { id: result[0].id, name: result[0].name };
+      done(err, user);
+    }
+  });
+});
 
 
 // Passport Routes
@@ -121,7 +112,6 @@ app.get('/logout', function(req, res) {
 
 // Routes
 
-app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
 // JSON API
@@ -129,7 +119,11 @@ app.get('/partials/:name', routes.partials);
 app.get('/api/name', api.name);
 
 // redirect all others to the index (HTML5 history)
-app.get('*', routes.index);
+app.get('*', function(req, res) {
+  res.render('index', {
+    user: req.user
+  });
+});
 
 // Start server
 

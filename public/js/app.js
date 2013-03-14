@@ -14,8 +14,6 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives'])
     								controller: MyAboutCtrl,
     								activetab: 'about'
     });
-    
-    $routeProvider.when('/login', {redirectTo: '/auth/facebook'});
 
     $routeProvider.otherwise({redirectTo: '/home'});
     $locationProvider.html5Mode(true);

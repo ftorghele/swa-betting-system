@@ -21,12 +21,22 @@ html(ng-app="myApp")
               a(href='home') Home
             li(ng-class="{active: $route.current.activetab == 'about'}")
               a(href='about') About
-            li
-              a(href='login') login
-            li
-              a(href='logout') logout
-            li 
+            - if(!user)
+                li
+                  a(href='auth/facebook', target='_self') login
+            - else
+                li.dropdown
+                  a(href='#', target='_self')
+                    img(src='https://graph.facebook.com/1137871804/picture')
+                    = user.name
+                    b.caret
+                  ul.dropdown-menu
+                    li 
+                      a(href='logout', target='_self') logout
+
             
+
+
 
     div.container(ng-view)
       block body
