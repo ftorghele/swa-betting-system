@@ -22,11 +22,11 @@ html(ng-app="myApp")
             li(ng-class="{active: $route.current.activetab == 'about'}")
               a(href='about') About
             li
-              a(href='auth/facebook') login
+              a(href='login') login
             li
               a(href='logout') logout
             li 
-              a {{name}}
+            
 
     div.container(ng-view)
       block body

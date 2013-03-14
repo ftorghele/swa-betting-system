@@ -6,8 +6,8 @@
 var express = require('express'),
   routes = require('./routes'),
   passport = require('passport'),
-  FacebookStrategy = require('passport-facebook').Strategy,
-  appconfig = require('./config'),
+  facebookStrategy = require('passport-facebook').Strategy,
+  appConfig = require('./config'),
   api = require('./routes/api');
 
 var app = module.exports = express();
@@ -21,70 +21,15 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.static(__dirname + '/public'));
-  app.use(express.session({ secret: appconfig.session_secret }));
+  app.use(express.session({ secret: appConfig.session_secret }));
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(app.router);
-});
 
-// MySQL
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-  host     : appconfig.mysql.host,
-  user     : appconfig.mysql.user,
-  password : appconfig.mysql.password,
-  database : appconfig.mysql.database
-});
-
-
-
-passport.use(new FacebookStrategy({
-    clientID: appconfig.fb.appid,
-    clientSecret: appconfig.fb.secret,
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    var user = {};
-    var sql = 'SELECT * FROM users WHERE fbId = ' + connection.escape(profile.id);
-    connection.query(sql, function(err, results) {
-      if (err) throw err;
-    
-      if(results.length === 0) {
-
-        var sql = 'INSERT INTO users (name, fbId) VALUES (' + connection.escape(profile.displayName) + ', ' + connection.escape(profile.id) + ');';
-        connection.query(sql, function(err, results) {
-          if (err) throw err;
-          user = { id: results[0].id, name: profile.name };
-        });
-
-      } else {
-        user = { id: results[0].id, name: profile.name };
-      }
-    
-      done(null, user);
-    });
-
-  })
-);
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  var user = {};
-  var sql = 'SELECT * FROM users WHERE id = ' + connection.escape(id);
-  connection.query(sql, function(err, results) {
-    if (err) throw err;
-    if(results.length === 0) {
-      user = undefined;
-    } else {
-      user = { id: results[0].id, name: results[0].name };
-    }
-    
-    done(err, user);
+  app.use(function(req, res, next){
+    res.locals.user = req.session.user;
+    next();
   });
-
 });
 
 app.locals({
@@ -99,21 +44,85 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+// MySQL
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host     : appConfig.mysql.host,
+  user     : appConfig.mysql.user,
+  password : appConfig.mysql.password,
+  database : appConfig.mysql.database
+});
+
+// Passport
+
+passport.use(new facebookStrategy({
+    clientID: appConfig.fb.key,
+    clientSecret: appConfig.fb.secret,
+    callbackURL: appConfig.fb.callbackUrl
+  },
+  function(token, tokenSecret, profile, done) {
+    var User = {};
+    var sql = 'SELECT count(*) FROM users WHERE fbId = ' + connection.escape(profile.id);
+    connection.query(sql, function(err, result) {
+      if (err) throw err;
+    
+      console.log(result);
+
+
+    });
+
+
+
+
+
+
+/*
+    User.findOne({providerId: profile.id},
+      function(err, user) {
+        if (!err && user != null) {
+          var ObjectId = mongoose.Types.ObjectId;
+          User.update({"_id": user["_id"]}, { $set: {lastConnected: new Date()} } ).exec();
+        } else {
+          var userData = new User({
+            provider: profile.provider,
+            providerUsername: profile.username,
+            providerId: profile.username + ":" + profile.id,
+            created: Date.now(),
+            oauthToken: token,
+            username: profile.displayName,
+            profilePicture: 'https://api.twitter.com/1/users/profile_image?screen_name=' + profile.username +'&size=bigger'
+          });
+          userData.save(function(err) {
+            if (err) console.log(err);
+            else console.log('Saving user...');
+          });
+        }
+      }
+      );
+      var user = { id: profile.id, name: profile.username });
+      done(null, user);
+      */
+  }
+));
+
+
+// Passport Routes
+
+app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
+
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/home',
+                                    failureRedirect: '/auth/facebook'})
+);
+app.get('/logout', function(req, res) {
+  req.logOut();
+  res.redirect('/');
+});
+
 // Routes
 
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
-
-app.get('/auth/facebook', passport.authenticate('facebook'));
-app.get('/auth/facebook/callback', 
-  passport.authenticate('facebook', { successRedirect: '/',
-                                      failureRedirect: '/login' }));
-
-app.get('/logout', function(req, res) {
-  req.logout();
-  console.log('logout');
-  res.render('index');
-});
 
 // JSON API
 
