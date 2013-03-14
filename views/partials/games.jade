@@ -1,0 +1,12 @@
+p There are currently {{games.length}} Games in progress! Start betting now!
+div(ng-repeat='game in games')
+  h3 {{game.title}}
+  div {{game.description}}
+  ul
+    li
+      1 {{game.quoteA}}
+    li
+      XX {{game.quoteX}}
+    li
+      2 {{game.quoteB}}
+  a(href='finishGame/{{game.id}}') Finish 
