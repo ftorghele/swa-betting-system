@@ -66,11 +66,11 @@ passport.use(new facebookStrategy({
           var sql = 'SELECT * FROM users WHERE fbId = ' + connection.escape(profile.id);
           connection.query(sql, function(err, result) {
             if (err) throw err;
-            done(null, { id: result[0].id, name: result[0].name });
+            done(null, { id: result[0].id, name: result[0].name, fbId: result[0].fbId });
           });
         });
       } else {
-        done(null, { id: result[0].id, name: result[0].name });        
+        done(null, { id: result[0].id, name: result[0].name, fbId: result[0].fbId });        
       }
     });
   }
@@ -87,8 +87,7 @@ passport.deserializeUser(function(id, done) {
     if(result.length === 0) {
       done(err, false);
     } else {
-      var user = { id: result[0].id, name: result[0].name };
-      done(err, user);
+      done(err, { id: result[0].id, name: result[0].name, fbId: result[0].fbId });
     }
   });
 });

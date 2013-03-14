@@ -30,7 +30,7 @@ html(ng-app="myApp")
             - else
                 li.dropdown.loggedin-user
                   a.dropdown-toggle(href='#')
-                    img(src='https://graph.facebook.com/1137871804/picture')
+                    img(src='https://graph.facebook.com/#{user.fbId}/picture')
                     span
                       = user.name
                     b.caret
