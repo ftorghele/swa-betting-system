@@ -9,8 +9,11 @@ var express = require('express'),
   facebookStrategy = require('passport-facebook').Strategy,
   appConfig = require('./config'),
   api = require('./routes/api'),
+  routes_filters = require('./routes/routes_filters.js'),
+  services = require('./lib/services.js'),
+  analyzeGame = require('./lib/analyzeGame.js'),
   connection = require('./db.js');
-
+  
 var app = module.exports = express();
 
 // Configuration
@@ -45,7 +48,7 @@ app.configure('production', function(){
 
 var cronJob = require('cron').CronJob;
 new cronJob('*/10 * * * * *', function(){
-    console.log('You will see this message every 10 seconds');
+    //console.log('You will see this message every 10 seconds');
 }, null, true, null);
 
 // Passport
@@ -90,7 +93,7 @@ passport.deserializeUser(function(id, done) {
     if(result.length === 0) {
       done(err, false);
     } else {
-      done(err, { id: result[0].id, name: result[0].name, fbId: result[0].fbId });
+      done(null, { id: result[0].id, name: result[0].name, fbId: result[0].fbId });
     }
   });
 });
@@ -114,9 +117,8 @@ app.get('/partials/:name', routes.partials);
 
 // JSON API
 
-app.get('/api/name', api.name);
 app.get('/api/games', api.games);
-app.post('/api/addgame', api.addgame);
+app.post('/api/addgame', routes_filters.loggedInFilter, api.addgame);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', function(req, res) {
@@ -128,6 +130,13 @@ app.get('*', function(req, res) {
 
 // Start server
 
-app.listen(3000, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+services.getRabbitMqConnection(function(conn) {
+  if (conn) {
+    analyzeGame.startConsumers();
+    app.listen(3000, function(){
+      console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+    });
+  } else {
+    console.log("failed to connect to rabbitmq");
+  }
 });
