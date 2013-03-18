@@ -3,10 +3,10 @@
  */
 
 var connection = require('../db.js'),
-    rabbitCon = require('../rabbit.js');
+    appConfig = require('../config');
 
 exports.games = function (req, res) {
-  var sql = 'SELECT * FROM games';
+  var sql = 'SELECT * FROM games WHERE endTime > NOW()';
   connection.query(sql, function(err, result) {
     if (err) throw err;
     res.json({
@@ -31,24 +31,3 @@ exports.addgame = function (req, res) {
   
   res.json(req.body);
 };
-
-exports.addBet = function (req, res) {
-  var bettingExchange;
-  rabbitConn.on('ready', function() {
-    bettingExchange = rabbitConn.exchange('bettingExchange', {'type': 'direct'});
-  });
-
-bettingExchange.publish('', data);
-  
-  rabbitConn.queue('', {exclusive: true}, function(q) {
-		// Bind to chatExchange w/ "#" or "" binding key to listen to all messages
-		q.bind('bettingExchange', "");
-
-		// Subscribe when a message comes, send it back to browser
-		/*q.subscribe(function (message) {
-			socket.emit('msg', message);
-		});*/
-	});
-  
-  res.json(req.body);
-}

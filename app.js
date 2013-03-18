@@ -11,7 +11,7 @@ var express = require('express'),
   api = require('./routes/api'),
   routes_filters = require('./routes/routes_filters.js'),
   services = require('./lib/services.js'),
-  analyzeGame = require('./lib/analyzeGame.js'),
+  rabbit = require('./lib/rabbit'),
   connection = require('./db.js');
   
 var app = module.exports = express();
@@ -48,7 +48,7 @@ app.configure('production', function(){
 
 var cronJob = require('cron').CronJob;
 new cronJob('*/10 * * * * *', function(){
-    //console.log('You will see this message every 10 seconds');
+    rabbit.analyzegame();
 }, null, true, null);
 
 // Passport
@@ -128,11 +128,8 @@ app.get('*', function(req, res) {
   });
 });
 
-// Start server
-
 services.getRabbitMqConnection(function(conn) {
   if (conn) {
-    analyzeGame.startConsumers();
     app.listen(3000, function(){
       console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
     });
