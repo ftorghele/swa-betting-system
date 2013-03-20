@@ -1,8 +1,9 @@
-.subhead
-  .container
-    h1 Neues Spiel anlegen
+.page-header
+  h1 
+    | Games 
+    small Add a new game
 
-form.form-horizontal.well(ng-submit="submitGame()")
+form.form-horizontal.pagination-centered(ng-submit="submitGame()")
   .span4
     .control-group
       label.control-label(for='inputTitle') Spiel
@@ -29,7 +30,12 @@ form.form-horizontal.well(ng-submit="submitGame()")
     .control-group
       label.control-label(for='inputEndTime') Datum / Zeit
       .controls
-        input#inputEndTime(type='datetime', placeholder='Datum/Zeit', ng-model='form.endTime', name='endTime', required)
+        #datetimepicker.input-append.date
+          input#inputEndTime(type='text', placeholder='Datum/Zeit', data-format='dd/MM/yyyy hh:mm:ss', ng-model='form.endTime', name='endTime', required)
+          span.add-on
+            i(data-time-icon="icon-time", data-date-icon="icon-calendar")
+
   .clearfix
-  button.btn.btn-primary.pull-right(type='submit') Spiel hinzufügen
+  button.btn.btn-primary.btn-large(type='submit') Neues Spiel hinzufügen
   .clearfix
+

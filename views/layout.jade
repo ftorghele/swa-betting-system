@@ -3,8 +3,9 @@ html(ng-app="myApp")
   head
     meta(charset='utf8')
     base(href='/')
-    title Angular Express Seed App
+    title #{brand}
     link(rel='stylesheet', href='/css/lib/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/lib/bootstrap-datetimepicker.min.css')
     link(rel='stylesheet', href='/css/app.css')
 
   body
@@ -39,18 +40,17 @@ html(ng-app="myApp")
                       a(href='logout', target='_self') 
                         i.icon-off
                         = ' logout'
-                        
-
-            
-
-
 
     div.container(ng-view)
       block body
 
+    div.container
+      hr
+
     script(src='js/lib/angular.min.js')
     script(src='js/lib/jquery.min.js')
     script(src='js/lib/bootstrap.min.js')
+    script(src='js/lib/bootstrap-datetimepicker.min.js')
     script(src='js/app.js')
     script(src='js/services.js')
     script(src='js/controllers.js')

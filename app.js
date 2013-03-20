@@ -124,7 +124,7 @@ app.post('/api/addgame', routes_filters.loggedInFilter, api.addgame);
 app.get('*', function(req, res) {
   res.render('index', {
     user: req.user,
-    brand: 'Betting System'
+    brand: 'SWABS'
   });
 });
 

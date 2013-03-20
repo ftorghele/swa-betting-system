@@ -31,4 +31,8 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives'])
     $locationProvider.html5Mode(true);
   }]);
 
+
+// Others
+
 $('.dropdown-toggle').dropdown();
+$('#datetimepicker').datetimepicker();
