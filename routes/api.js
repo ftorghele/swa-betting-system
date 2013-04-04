@@ -45,8 +45,7 @@ exports.addbet = function (req, res) {
   } else {
     quote = req.body.game.quoteX;
   }
-  
-  console.log(quote);
+
   
   var sql = 'INSERT INTO bets (id_user, id_game, amount, quote, tip) VALUES (' +
     connection.escape(req.user.id) + ',' + 

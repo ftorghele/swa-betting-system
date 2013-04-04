@@ -18,13 +18,13 @@
             form.pagination-centered(ng-submit="submitBet({{game}})")
 
               label.radio.inline
-                input(type="radio", name="tip", id="quoteA", value="quoteA", ng-model="form.tip.index", required)
+                input(type="radio", name="tip", id="quoteA", value="quoteA", ng-model="form.tip", required)
                 | A: {{game.quoteA | number: 2}}
               label.radio.inline
-                input(type="radio", name="tip", id="quoteX", value="quoteX", ng-model="form.tip.index", required)
+                input(type="radio", name="tip", id="quoteX", value="quoteX", ng-model="form.tip", required)
                 | X: {{game.quoteX | number: 2}}
               label.radio.inline
-                input(type="radio", name="tip", id="quoteB", value="quoteB", ng-model="form.tip.index", required)
+                input(type="radio", name="tip", id="quoteB", value="quoteB", ng-model="form.tip", required)
                 | B: {{game.quoteB | number: 2}}
 
               .input-prepend.input-append
