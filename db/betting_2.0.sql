@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 04. Apr 2013 um 10:13
+-- Erstellungszeit: 04. Apr 2013 um 10:50
 -- Server Version: 5.5.25
 -- PHP-Version: 5.4.4
 
@@ -27,19 +27,19 @@ CREATE TABLE `bets` (
   `amount` double NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `quote` double NOT NULL,
-  `quoteA` tinyint(1) NOT NULL DEFAULT '0',
-  `quoteB` tinyint(1) NOT NULL DEFAULT '0',
-  `quoteX` tinyint(1) NOT NULL DEFAULT '0',
+  `tip` varchar(6) NOT NULL,
   `analyzed` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Daten für Tabelle `bets`
 --
 
-INSERT INTO `bets` (`id`, `id_user`, `id_game`, `amount`, `time`, `quote`, `quoteA`, `quoteB`, `quoteX`, `analyzed`) VALUES
-(1, 2, 16, 10, '2013-04-04 07:46:46', 1.6, 0, 0, 1, 0);
+INSERT INTO `bets` (`id`, `id_user`, `id_game`, `amount`, `time`, `quote`, `tip`, `analyzed`) VALUES
+(1, 2, 16, 10, '2013-04-04 07:46:46', 1.6, 'quoteA', 0),
+(2, 1, 22, 10, '2013-04-04 08:23:49', 1.7, 'quoteA', 0),
+(3, 2, 22, 15, '2013-04-04 08:23:49', 8, 'quoteB', 0);
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE `games` (
   `endTime` datetime DEFAULT NULL,
   `transmitted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 --
 -- Daten für Tabelle `games`
@@ -66,7 +66,9 @@ CREATE TABLE `games` (
 INSERT INTO `games` (`id`, `title`, `description`, `quoteA`, `quoteB`, `quoteX`, `endTime`, `transmitted`) VALUES
 (16, 'Benfica Lissabon - Newcastle United', 'asdf', 1.5, 3, 4.33, '2013-04-04 21:05:00', 0),
 (19, '1 gegen 2', 'test', 1.5, 6.2, 1.2, '2013-04-04 10:00:00', 1),
-(20, 'Fallen Christoph die Haare aus?', 'asdf', 1.5, 6.2, 1.2, '2013-04-04 10:04:40', 1);
+(20, 'Fallen Christoph die Haare aus?', 'asdf', 1.5, 6.2, 1.2, '2013-04-04 10:04:40', 1),
+(21, '1 gegen 2', 'adsf', 1.5, 6.2, 1.2, '2013-04-04 10:19:30', 1),
+(22, 'Lukas - Christoph', 'zum testen mal wieder', 8, 6.2, 1.2, '2013-04-04 10:26:00', 1);
 
 -- --------------------------------------------------------
 
