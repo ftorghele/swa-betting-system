@@ -15,6 +15,11 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives'])
     								activetab: 'about'
 
       }).
+      when('/thanks', {	templateUrl: 'partials/thanks', 
+    								controller: MyThanksCtrl,
+    								activetab: 'games'
+
+      }).
       when('/games', {	templateUrl: 'partials/games', 
     								controller: MyGamesCtrl,
     								activetab: 'games'
