@@ -18,18 +18,18 @@
             form.pagination-centered(ng-submit="submitBet({{game.id}})")
 
               label.radio.inline
-                input(type="radio", name="tip", id="quoteA", value="quoteA", ng-model='form.tip')
-                | A: {{game.quoteA}}
+                input(type="radio", name="tip", id="quoteA", value="quoteA", ng-model="form.tip.index", required)
+                | A: {{game.quoteA | number: 2}}
               label.radio.inline
-                input(type="radio", name="tip", id="quoteX", value="quoteX", checked, ng-model='form.tip')
-                | X: {{game.quoteX}}
+                input(type="radio", name="tip", id="quoteX", value="quoteX", ng-model="form.tip.index", required)
+                | X: {{game.quoteX | number: 2}}
               label.radio.inline
-                input(type="radio", name="tip", id="quoteB", value="quoteB", ng-model='form.tip')
-                | B: {{game.quoteB}}
+                input(type="radio", name="tip", id="quoteB", value="quoteB", ng-model="form.tip.index", required)
+                | B: {{game.quoteB | number: 2}}
 
               .input-prepend.input-append
                 span.add-on Amount
-                input.span2#inputTitle(type='number', placeholder='10', ng-model='form.amount', name='amount', required)
+                input.span2#inputTitle(type='number', placeholder='10', max=user.credits, ng-model='form.amount', name='amount', required)
                 span.add-on BTC
 
               button.btn.btn-primary.pull-right(type='submit') bet
