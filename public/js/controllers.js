@@ -22,6 +22,10 @@ function MyAboutCtrl() {
 }
 MyAboutCtrl.$inject = [];
 
+function MyThanksCtrl() {
+}
+MyThanksCtrl.$inject = [];
+
 function MyGamesCtrl($scope, $http, $location) {
   $http.get('/api/games').success(function(data, status, headers, config) {
     $scope.games = data.games;
@@ -32,7 +36,7 @@ function MyGamesCtrl($scope, $http, $location) {
     console.log($scope.form);    
     $http.post('/api/addbet', $scope.form).
       success(function(data) {
-        $location.path('/games');
+        $location.path('/thanks');
       });
   };
 }
