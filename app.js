@@ -113,7 +113,13 @@ app.get('/logout', function(req, res) {
 
 // Routes
 
-app.get('/partials/:name', routes.partials);
+//app.get('/partials/:name', routes.partials);
+app.get('/partials/:name', function(req, res) {
+  res.render('partials/' + req.params.name, {
+    user: req.user,
+    brand: 'SWABS'
+  });
+});
 
 // JSON API
 

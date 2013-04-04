@@ -13,7 +13,7 @@ body {
 }
 
 .thumbnail {
-  height: 250px;
+  height: 270px;
   margin-bottom: 20px;
 }
 
@@ -22,17 +22,16 @@ body {
   height: 150px;
 }
 
-.thumbnail ul {
+.thumbnail .bet {
   background: #eee;
-  padding: 10px 0 10px 10px;
   margin: -5px -4px 0 -4px;
-  min-height: 22px;
+  height: 63px;
 }
-.thumbnail ul li {
-  float: left;
-  width: 70px;
-  list-style: none;
-  line-height: 25px;
+.thumbnail .bet label {
+  width: 50px;
+}
+.thumbnail .bet p {
+  line-height: 65px;
 }
 .thumbnail h4 {
   background: #eee;

@@ -14,23 +14,28 @@
           h4 {{game.title}}
           p {{game.description}}
         div.bet
-          form.pagination-centered(ng-submit="submitBet()")
-            .input-prepend.input-append
-              span.add-on Amount
-              input.span2#inputTitle(type='number', placeholder='10', ng-model='form.amount', name='amount', required)
-              span.add-on BTC
+          - if(user)
+            form.pagination-centered(ng-submit="submitBet()")
 
-            label.radio.inline
-              input(type="radio", name="quote", id="quoteA", value="quoteA")
-              | A: {{game.quoteA}}
-            label.radio.inline
-              input(type="radio", name="quote", id="quoteX", value="quoteX", checked)
-              | X: {{game.quoteX}}
-            label.radio.inline
-              input(type="radio", name="quote", id="quoteB", value="quoteB")
-              | B: {{game.quoteB}}
-            .clearfix
+              label.radio.inline
+                input(type="radio", name="quote", id="quoteA", value="quoteA")
+                | A: {{game.quoteA}}
+              label.radio.inline
+                input(type="radio", name="quote", id="quoteX", value="quoteX", checked)
+                | X: {{game.quoteX}}
+              label.radio.inline
+                input(type="radio", name="quote", id="quoteB", value="quoteB")
+                | B: {{game.quoteB}}
 
+              .input-prepend.input-append
+                span.add-on Amount
+                input.span2#inputTitle(type='number', placeholder='10', ng-model='form.amount', name='amount', required)
+                span.add-on BTC
 
-            input(type="hidden", name="id_game", value="{{game.id}}")
-            button.span3.btn.btn-primary(type='submit') bet
+              button.btn.btn-primary.pull-right(type='submit') bet
+              .clearfix
+              input(type="hidden", name="id_game", value="{{game.id}}")
+          - else
+            .pagination-centered
+              p login to bet
+            
