@@ -1,15 +1,36 @@
 .page-header
   h1 
     | Games 
-    small Overview
+    small 
+     | Overview
+     a.btn.btn-primary.pull-right(href='addGame') Want to add a Game?
 
-p There are currently {{games.length}} Games in progress! Start betting now!
-a(href='addGame') Want to add a Game?
-div(ng-repeat='game in games')
-  h3 {{game.title}}
-  div {{game.description}}
-  ul
-    li 1: {{game.quoteA}}
-    li X: {{game.quoteX}}
-    li 2: {{game.quoteB}}
-  a(href='finishGame/{{game.id}}') Finish 
+.span12
+  p There are currently {{games.length}} Games in progress! Start betting now!
+  .thumbnails
+    .span4(ng-repeat='game in games')
+      .thumbnail
+        div
+          h4 {{game.title}}
+          p {{game.description}}
+        div.bet
+          form.pagination-centered(ng-submit="submitBet()")
+            .input-prepend.input-append
+              span.add-on Amount
+              input.span2#inputTitle(type='number', placeholder='10', ng-model='form.amount', name='amount', required)
+              span.add-on BTC
+
+            label.radio.inline
+              input(type="radio", name="quote", id="quoteA", value="quoteA")
+              | A: {{game.quoteA}}
+            label.radio.inline
+              input(type="radio", name="quote", id="quoteX", value="quoteX", checked)
+              | X: {{game.quoteX}}
+            label.radio.inline
+              input(type="radio", name="quote", id="quoteB", value="quoteB")
+              | B: {{game.quoteB}}
+            .clearfix
+
+
+            input(type="hidden", name="id_game", value="{{game.id}}")
+            button.span3.btn.btn-primary(type='submit') bet

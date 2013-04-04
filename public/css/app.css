@@ -1,5 +1,6 @@
 body {
   margin-top: 60px;
+  word-wrap: break-word;
 }
 
 .loggedin-user img {
@@ -9,4 +10,38 @@ body {
 }
 .loggedin-user span {
 	margin: 0px 5px;
+}
+
+.thumbnail {
+  height: 250px;
+  margin-bottom: 20px;
+}
+
+.thumbnail p {
+  overflow-y: auto;
+  height: 150px;
+}
+
+.thumbnail ul {
+  background: #eee;
+  padding: 10px 0 10px 10px;
+  margin: -5px -4px 0 -4px;
+  min-height: 22px;
+}
+.thumbnail ul li {
+  float: left;
+  width: 70px;
+  list-style: none;
+  line-height: 25px;
+}
+.thumbnail h4 {
+  background: #eee;
+  padding: 10px;
+  margin: -5px -4px 0 -4px;
+  min-height: 41px;
+}
+
+.thumbnail:hover {
+  -webkit-box-shadow:  0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+  box-shadow:  0px 0px 10px 1px rgba(0, 0, 0, 0.2);
 }

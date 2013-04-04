@@ -22,11 +22,17 @@ function MyAboutCtrl() {
 }
 MyAboutCtrl.$inject = [];
 
-function MyGamesCtrl($scope, $http) {
-  $http.get('/api/games').
-    success(function(data, status, headers, config) {
-      $scope.games = data.games;
-    });
+function MyGamesCtrl($scope, $http, $location) {
+  $http.get('/api/games').success(function(data, status, headers, config) {
+    $scope.games = data.games;
+  });
+  $scope.form = {};
+  $scope.submitBet = function () {
+    $http.post('/api/addbet', $scope.form).
+      success(function(data) {
+        $location.path('/games');
+      });
+  };
 }
 
 function AddGameCtrl($scope, $http, $location) {
