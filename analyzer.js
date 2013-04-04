@@ -17,9 +17,6 @@ function setup(conn) {
       
       random.getRandomInt(1, 3, function(err, value) {
         // The value will between 1-3
-        console.log("1: Quote A; 2: Quote B; 3: Quote X");
-        console.log("And the winner is: ", value);
-        
         var winner = '';
         
         if(value == 1) {
@@ -29,27 +26,32 @@ function setup(conn) {
         } else if (value == 3) {
           winner = 'quoteX';
         }
-        console.log("winner = ",winner);
+
         var sql = 'SELECT * FROM bets WHERE id_game = ' + 
           connection.escape(msg.body.id);
         connection.query(sql, function(err, result) {
         if (err) throw err;
-          console.log(result);
-          
+              
           for(var bet in result){
             if(result[bet].tip == winner) {
-              console.log(bet+": "+result[bet].quote);
+              var win = result[bet].quote * result[bet].amount;
+              var sql_win = 'UPDATE users SET credits = credits + ' +
+                win + ' WHERE id = ' +
+                result[bet].id_user;
+              connection.query(sql_win, function(err, result) {
+                if (err) throw err;
+              });
             }
+            
+            var sql_analyzed = 'UPDATE bets SET analyzed = 1 WHERE id = ' +
+              result[bet].id;
+            connection.query(sql_analyzed, function(err, result) {
+              if (err) throw err;
+            });
           }
           
         });
       });
-       
-    // wetten durchgehen
-    // // gewinn berechnen
-    // // gewinn verbuchen
-    // // wettbeitrag löschen
-      
     });
     
     queue.bind('bettingExchange', 'analyze_queue');
