@@ -27,7 +27,8 @@ function MyGamesCtrl($scope, $http, $location) {
     $scope.games = data.games;
   });
   $scope.form = {};
-  $scope.submitBet = function () {
+  $scope.submitBet = function (id_game) {
+    $scope.form.id_game = id_game;
     $http.post('/api/addbet', $scope.form).
       success(function(data) {
         $location.path('/games');

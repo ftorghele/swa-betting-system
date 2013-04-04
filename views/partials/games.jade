@@ -15,16 +15,16 @@
           p {{game.description}}
         div.bet
           - if(user)
-            form.pagination-centered(ng-submit="submitBet()")
+            form.pagination-centered(ng-submit="submitBet({{game.id}})")
 
               label.radio.inline
-                input(type="radio", name="quote", id="quoteA", value="quoteA")
+                input(type="radio", name="tip", id="quoteA", value="quoteA", ng-model='form.tip')
                 | A: {{game.quoteA}}
               label.radio.inline
-                input(type="radio", name="quote", id="quoteX", value="quoteX", checked)
+                input(type="radio", name="tip", id="quoteX", value="quoteX", checked, ng-model='form.tip')
                 | X: {{game.quoteX}}
               label.radio.inline
-                input(type="radio", name="quote", id="quoteB", value="quoteB")
+                input(type="radio", name="tip", id="quoteB", value="quoteB", ng-model='form.tip')
                 | B: {{game.quoteB}}
 
               .input-prepend.input-append
@@ -34,7 +34,6 @@
 
               button.btn.btn-primary.pull-right(type='submit') bet
               .clearfix
-              input(type="hidden", name="id_game", value="{{game.id}}")
           - else
             .pagination-centered
               p login to bet

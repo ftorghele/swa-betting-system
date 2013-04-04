@@ -4,7 +4,7 @@
  */
 
 var express = require('express'),
-  routes = require('./routes'),
+
   passport = require('passport'),
   facebookStrategy = require('passport-facebook').Strategy,
   appConfig = require('./config'),
