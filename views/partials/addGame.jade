@@ -28,14 +28,18 @@ form.form-horizontal.pagination-centered(ng-submit="submitGame()")
       .controls
         input#inputQuoteX(type='number', placeholder='1.0', ng-model='form.quoteX', name='quoteX', required)
     .control-group
-      label.control-label(for='inputEndTime') Datum / Zeit
+      label.control-label(for='inputEndTime') Endet in
       .controls
-        #datetimepicker.input-append.date
-          input#inputEndTime(type='text', placeholder='Datum/Zeit', data-format='dd/MM/yyyy hh:mm:ss', ng-model='form.endTime', name='endTime', required)
-          span.add-on
-            i(data-time-icon="icon-time", data-date-icon="icon-calendar")
+        select#inputEndTime(ng-model='form.endTime', name='endTime', required)
+          option(value="")
+            | please select
+          option(value="5")
+            | 5 minutes
+          option(value="10")
+            | 10 minutes
+          option(value="20")
+            | 20 minutes
 
   .clearfix
   button.btn.btn-primary.btn-large(type='submit') Neues Spiel hinzufügen
   .clearfix
-

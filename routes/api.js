@@ -2,6 +2,8 @@
  * Serve JSON to our AngularJS client
  */
 
+require('datejs');
+
 var connection = require('../db.js'),
     appConfig = require('../config');
 
@@ -22,7 +24,7 @@ exports.addgame = function (req, res) {
     connection.escape(req.body.quoteA) + ',' + 
     connection.escape(req.body.quoteB) + ',' +
     connection.escape(req.body.quoteX) + ',' +
-    connection.escape(req.body.endTime) + ');'
+    connection.escape(new Date().add({ minutes: req.body.endTime })) + ');'
   ;   
   
   connection.query(sql, function(err, result) {

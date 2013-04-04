@@ -5,7 +5,6 @@ html(ng-app="myApp")
     base(href='/')
     title #{brand}
     link(rel='stylesheet', href='/css/lib/bootstrap.min.css')
-    link(rel='stylesheet', href='/css/lib/bootstrap-datetimepicker.min.css')
     link(rel='stylesheet', href='/css/app.css')
 
   body
@@ -34,6 +33,10 @@ html(ng-app="myApp")
                     img(src='https://graph.facebook.com/#{user.fbId}/picture')
                     span
                       = user.name
+                    span
+                      |(
+                      = user.credits
+                      | BTC)
                     b.caret
                   ul.dropdown-menu
                     li 
@@ -44,13 +47,13 @@ html(ng-app="myApp")
     div.container(ng-view)
       block body
 
-    div.container
+    div.container.pagination-centered
       hr
+      p 
 
     script(src='js/lib/angular.min.js')
     script(src='js/lib/jquery.min.js')
     script(src='js/lib/bootstrap.min.js')
-    script(src='js/lib/bootstrap-datetimepicker.min.js')
     script(src='js/app.js')
     script(src='js/services.js')
     script(src='js/controllers.js')
