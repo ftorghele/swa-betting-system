@@ -38,7 +38,7 @@ function setup(conn) {
         }
 
         var sql_game = 'SELECT * FROM games WHERE id = ' +
-          connection.escape(msg.body.id_game);
+          connection.escape(msg.body.game.id);
         connection.query(sql_game, function(err, game) {
           if (err) throw err;
 
@@ -72,7 +72,7 @@ function setup(conn) {
             connection.escape(quoteA) + ', quoteB = ' +
             connection.escape(quoteB) + ', quoteX = ' +
             connection.escape(quoteX) + ' WHERE id = ' +
-            connection.escape(msg.body.id_game); 
+            connection.escape(msg.body.game.id); 
           
           connection.query(sql_update, function(err, result) {
             if (err) throw err;

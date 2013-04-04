@@ -15,7 +15,7 @@
           p {{game.description}}
         div.bet
           - if(user)
-            form.pagination-centered(ng-submit="submitBet({{game.id}})")
+            form.pagination-centered(ng-submit="submitBet({{game}})")
 
               label.radio.inline
                 input(type="radio", name="tip", id="quoteA", value="quoteA", ng-model='form.tip')

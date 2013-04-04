@@ -36,18 +36,35 @@ exports.addgame = function (req, res) {
 };
 
 exports.addbet = function (req, res) {
-  req.body.quote = '2.0';
+  var quote = 0;
+  
+  if(req.body.tip == 'quoteA') {
+    quote = req.body.game.quoteA;
+  } else if (req.body.tip == 'quoteB') {
+    quote = req.body.game.quoteB;
+  } else {
+    quote = req.body.game.quoteX;
+  }
+  
+  console.log(quote);
+  
   var sql = 'INSERT INTO bets (id_user, id_game, amount, quote, tip) VALUES (' +
     connection.escape(req.user.id) + ',' + 
-    connection.escape(req.body.id_game) + ',' + 
+    connection.escape(req.body.game.id) + ',' + 
     connection.escape(req.body.amount) + ',' + 
-    connection.escape(req.body.quote) + ',' +
+    connection.escape(quote) + ',' +
     connection.escape(req.body.tip) + ');'
   ;   
   
   connection.query(sql, function(err, result) {
     if (err) throw err;
-    rabbit.odds(req.body);
+    var sql_amount = 'UPDATE users SET credits = credits - ' +
+      req.body.amount + ' WHERE id = ' +
+      req.user.id;
+    connection.query(sql_amount, function(err, result) {
+      if (err) throw err;
+      rabbit.odds(req.body);
+    });
   });
   
   res.json(req.body);
