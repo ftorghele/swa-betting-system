@@ -118,7 +118,8 @@ app.get('/partials/:name', routes.partials);
 // JSON API
 
 app.get('/api/games', api.games);
-app.post('/api/addgame', routes_filters.loggedInFilter, api.addgame);
+app.post('/api/addgame', api.addgame);
+app.post('/api/addbet', routes_filters.loggedInFilter, api.addbet);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', function(req, res) {

@@ -5,6 +5,7 @@
 require('datejs');
 
 var connection = require('../db.js'),
+    rabbit = require('../lib/rabbit'),
     appConfig = require('../config');
 
 exports.games = function (req, res) {
@@ -29,6 +30,23 @@ exports.addgame = function (req, res) {
   
   connection.query(sql, function(err, result) {
     if (err) throw err;
+  });
+  
+  res.json(req.body);
+};
+
+exports.addbet = function (req, res) {
+  var sql = 'INSERT INTO bets (id_user, id_game, amount, quote, tip) VALUES (' +
+    connection.escape(req.user.id) + ',' + 
+    connection.escape(req.body.id_game) + ',' + 
+    connection.escape(req.body.amount) + ',' + 
+    connection.escape(req.body.quote) + ',' +
+    connection.escape(req.body.tip) + ');'
+  ;   
+  
+  connection.query(sql, function(err, result) {
+    if (err) throw err;
+    rabbit.odds(req.body);
   });
   
   res.json(req.body);
