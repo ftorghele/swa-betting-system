@@ -36,6 +36,7 @@ exports.addgame = function (req, res) {
 };
 
 exports.addbet = function (req, res) {
+  req.body.quote = '2.0';
   var sql = 'INSERT INTO bets (id_user, id_game, amount, quote, tip) VALUES (' +
     connection.escape(req.user.id) + ',' + 
     connection.escape(req.body.id_game) + ',' + 
