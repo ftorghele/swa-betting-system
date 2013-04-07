@@ -36,7 +36,7 @@ function MyGamesCtrl($scope, $http, $location) {
     console.log($scope.form);    
     $http.post('/api/addbet', $scope.form).
       success(function(data) {
-        $location.path('/thanks');
+        window.location = "/thanks";
       });
   };
 }
